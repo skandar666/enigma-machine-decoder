@@ -12,18 +12,15 @@ import (
 )
 
 func GetHttp(w http.ResponseWriter, r *http.Request) {
-	file, err := os.Open("index.html")
+	data, err := os.ReadFile("index.html")
+
 	if err != nil {
 		http.Error(w, "File not found", http.StatusInternalServerError)
 		return
 	}
-	defer file.Close()
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	if _, err := io.Copy(w, file); err != nil {
-		http.Error(w, "File send error", http.StatusInternalServerError)
-	}
+	w.Write(data)
 }
 
 func LoadHttp(w http.ResponseWriter, r *http.Request) {
@@ -46,7 +43,7 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resultStr := service.Service(string(data))
+	resultStr := service.Service(data)
 
 	ext := filepath.Ext(header.Filename)
 	filename := fmt.Sprintf("%s%s", time.Now().UTC().String(), ext)
@@ -62,7 +59,7 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "File recording error", http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
 	fmt.Fprintln(w, resultStr)
 }
