@@ -25,7 +25,8 @@ func GetHttp(w http.ResponseWriter, r *http.Request) {
 
 func LoadHttp(w http.ResponseWriter, r *http.Request) {
 
-	if err := r.ParseMultipartForm(10 << 20); err != nil {
+	err := r.ParseMultipartForm(10 << 20)
+	if err != nil {
 		http.Error(w, "Parse error", http.StatusInternalServerError)
 		return
 	}
@@ -37,13 +38,13 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 	}
 	defer file.Close()
 
-	data, err := io.ReadAll(file)
+	dataFile, err := io.ReadAll(file)
 	if err != nil {
 		http.Error(w, "File reading error", http.StatusInternalServerError)
 		return
 	}
 
-	resultStr := service.Service(data)
+	resultStr := service.Service(string(dataFile))
 
 	ext := filepath.Ext(header.Filename)
 	filename := fmt.Sprintf("%s%s", time.Now().Format("01022006_150405"), ext)
@@ -61,5 +62,5 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
-	fmt.Fprintln(w, resultStr)
+	w.Write([]byte(resultStr))
 }
