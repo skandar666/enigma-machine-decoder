@@ -11,7 +11,7 @@ import (
 	"github.com/Yandex-Practicum/go1fl-sprint6-final/internal/service"
 )
 
-func GetHttp(w http.ResponseWriter, r *http.Request) {
+func DataReceive(w http.ResponseWriter, r *http.Request) {
 	data, err := os.ReadFile("index.html")
 
 	if err != nil {
@@ -23,7 +23,7 @@ func GetHttp(w http.ResponseWriter, r *http.Request) {
 	w.Write(data)
 }
 
-func LoadHttp(w http.ResponseWriter, r *http.Request) {
+func DataLoad(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
