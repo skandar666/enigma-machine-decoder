@@ -56,11 +56,12 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 	}
 	defer fileOut.Close()
 
-	if _, err := fileOut.WriteString(resultStr); err != nil {
+	_, err := fileOut.WriteString(resultStr)
+	if err != nil {
 		http.Error(w, "File recording error", http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 	w.Write([]byte(resultStr))
 }
