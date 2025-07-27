@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/Yandex-Practicum/go1fl-sprint6-final/internal/handlers"
-	"github.com/go-chi/chi"
 )
 
 type MyServer struct {
@@ -15,14 +14,14 @@ type MyServer struct {
 }
 
 func NewServer(logger *log.Logger) *MyServer {
-	r := chi.NewRouter()
+	mux := http.NewServeMux()
 
-	r.Get("/", handlers.LoadHttp)
-	r.Post("/upload", handlers.GetHttp)
+	mux.HandleFunc("/", handlers.LoadHttp)
+	mux.HandleFunc("/upload", handlers.GetHttp)
 
 	srv := &http.Server{
 		Addr:         ":8080",
-		Handler:      r,
+		Handler:      mux,
 		ErrorLog:     logger,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
