@@ -24,8 +24,12 @@ func DataReceive(w http.ResponseWriter, r *http.Request) {
 }
 
 func DataLoad(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed)
+		return
+	}
 
-	err := r.ParseMultipartForm(10 << 20)
+	err := r.ParseMultipartForm(32 << 20)
 	if err != nil {
 		http.Error(w, "Parse error", http.StatusBadRequest)
 		return
