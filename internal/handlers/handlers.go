@@ -27,7 +27,7 @@ func DataLoad(w http.ResponseWriter, r *http.Request) {
 
 	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
-		http.Error(w, "Parse error", http.StatusInternalServerError)
+		http.Error(w, "Parse error", http.StatusBadRequest)
 		return
 	}
 
