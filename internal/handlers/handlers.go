@@ -46,7 +46,7 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 	resultStr := service.Service(data)
 
 	ext := filepath.Ext(header.Filename)
-	filename := fmt.Sprintf("%s%s", time.Now().UTC().String(), ext)
+	filename := fmt.Sprintf("%s%s", time.Now().Format("01022006_150405"), ext)
 
 	fileOut, err := os.Create(filename)
 	if err != nil {
@@ -59,7 +59,7 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "File recording error", http.StatusInternalServerError)
 		return
 	}
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 
 	fmt.Fprintln(w, resultStr)
 }
