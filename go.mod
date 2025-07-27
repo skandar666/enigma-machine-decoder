@@ -2,4 +2,7 @@ module github.com/Yandex-Practicum/go1fl-sprint6-final
 
 go 1.24.0
 
-require golang.org/x/net v0.42.0 // indirect
+require (
+	github.com/go-chi/chi/v5 v5.2.2 // indirect
+	golang.org/x/net v0.42.0 // indirect
+)
