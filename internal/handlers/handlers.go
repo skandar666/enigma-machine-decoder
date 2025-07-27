@@ -56,7 +56,7 @@ func LoadHttp(w http.ResponseWriter, r *http.Request) {
 	}
 	defer fileOut.Close()
 
-	_, err := fileOut.WriteString(resultStr)
+	_, err = fileOut.WriteString(resultStr)
 	if err != nil {
 		http.Error(w, "File recording error", http.StatusInternalServerError)
 		return
